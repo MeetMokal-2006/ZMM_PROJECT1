@@ -1,0 +1,27 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_MM_EXPENSECLAIM alias ExpenseClaim
+{
+  use create;
+  use update;
+  use delete;
+
+
+
+  use action Prepare;
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+ use   association _ExpenseItem { create; }
+}
+
+define behavior for ZC_MM_EXPENSEITEM
+{
+  use update;
+  use delete;
+
+  use association _ExpenseClaim;
+}

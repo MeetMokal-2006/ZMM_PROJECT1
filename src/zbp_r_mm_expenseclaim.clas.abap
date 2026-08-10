@@ -1,0 +1,5 @@
+CLASS zbp_r_mm_expenseclaim DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zr_mm_expenseclaim.
+ENDCLASS.
+
+CLASS zbp_r_mm_expenseclaim IMPLEMENTATION.
+ENDCLASS.

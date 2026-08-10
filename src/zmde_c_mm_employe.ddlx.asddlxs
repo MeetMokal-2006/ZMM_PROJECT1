@@ -1,0 +1,86 @@
+@Metadata.layer: #CORE
+
+annotate entity ZC_MM_EMPLOYEE_EXPENSE
+with
+{
+  @UI.facet: [
+    {
+      id       : 'EmployeeExpense',
+      purpose  : #STANDARD,
+      type     : #IDENTIFICATION_REFERENCE,
+      label    : 'Expense Claim',
+      position : 10
+    },
+    {
+      id            : 'ExpenseItems',
+      purpose       : #STANDARD,
+      type          : #LINEITEM_REFERENCE,
+      targetElement : '_ExpenseItem',
+      label         : 'Expense Items',
+      position      : 20
+    }
+  ]
+
+  @UI.lineItem: [
+    { position: 10, importance: #HIGH },
+    { type: #FOR_ACTION,
+      dataAction: 'Cancel_Claim',
+      label: 'Cancel Claim',
+      position: 110 },
+    { type: #FOR_ACTION,
+      dataAction: 'Reapply_Claim',
+      label: 'Reapply Claim',
+      position: 120 }
+  ]
+
+  @UI.identification: [
+    { position: 10, label: 'Claim ID' },
+    { type: #FOR_ACTION,
+      dataAction: 'Cancel_Claim',
+      label: 'Cancel Claim',
+      position: 110 },
+    { type: #FOR_ACTION,
+      dataAction: 'Reapply_Claim',
+      label: 'Reapply Claim',
+      position: 120 }
+  ]
+
+  @UI.selectionField: [{ position: 10 }]
+  ClaimId;
+
+  @UI.lineItem: [{ position: 20, importance: #HIGH }]
+  @UI.identification: [{ position: 20, label: 'Employee Id' }]
+  EmployeeId;
+
+  @UI.lineItem: [{ position: 30, importance: #HIGH }]
+  @UI.identification: [{ position: 30, label: 'Employee Name' }]
+  EmployeeName;
+
+  @UI.lineItem: [{ position: 40, importance: #HIGH }]
+  @UI.identification: [{ position: 40, label: 'Department' }]
+  Department;
+
+  @UI.lineItem: [{ position: 50, importance: #HIGH }]
+  @UI.identification: [{ position: 50, label: 'Purpose' }]
+  Purpose;
+
+  @UI.lineItem: [{ position: 60, importance: #HIGH }]
+  @UI.identification: [{ position: 60, label: 'Claim Date' }]
+  ClaimDate;
+
+  @UI.hidden: true
+  CukyField;
+
+  @UI.lineItem: [{ position: 70, importance: #HIGH }]
+  @UI.identification: [{ position: 70, label: 'Total Amount' }]
+  TotalAmount;
+
+  @UI.lineItem: [{ position: 80, importance: #HIGH }]
+  @UI.identification: [{ position: 80, label: 'Status' }]
+  Status;
+
+  @UI.lineItem: [{ position: 90, importance: #HIGH }]
+  @UI.identification: [{ position: 90, label: 'Claim Remark' }]
+  ManagerRemarks;
+
+}

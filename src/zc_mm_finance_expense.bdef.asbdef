@@ -1,0 +1,25 @@
+projection;
+strict ( 2 );
+
+
+define behavior for ZC_MM_FINANCE_EXPENSE alias ExpenseClaim
+{
+use update;
+use action ReleasePayment;
+
+  side effects
+{
+  action ReleasePayment
+    affects field Status,
+            field ManagerRemarks;
+            }
+
+  use association _ExpenseItem ;
+}
+
+define behavior for ZC_MM_FINANCE_EXPENSEITEM alias ExpenseItem
+{
+
+
+  use association _ExpenseClaim;
+}

@@ -1,0 +1,37 @@
+projection;
+strict ( 2 );
+//use draft;
+
+define behavior for ZC_MM_MANAGER_EXPENSE alias ExpenseClaim
+{
+  use update;
+
+  use action Approve;
+  use action Reject;
+
+//  use action Prepare;
+//  use action Edit;
+//  use action Activate;
+//  use action Discard;
+//  use action Resume;
+
+side effects
+{
+  action Approve
+    affects field Status,
+            field ManagerRemarks;
+
+  action Reject
+    affects field Status,
+            field ManagerRemarks;
+}
+
+
+  use association _ExpenseItem;
+}
+
+define behavior for ZC_MM_MANAGER_EXPENSEITEM alias ExpenseItem
+{
+
+  use association _ExpenseClaim;
+}

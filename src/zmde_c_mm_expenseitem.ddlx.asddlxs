@@ -1,0 +1,83 @@
+@Metadata.layer: #CORE
+annotate entity ZC_MM_EXPENSEITEM
+    with
+{
+
+  /* Expense Type */
+  @UI.lineItem: [
+    { position: 10, importance: #HIGH }
+  ]
+  @UI.identification: [
+    { position: 10 }
+  ]
+  ExpenseTypeId;
+
+  /* Expense Date */
+  @UI.lineItem: [
+    { position: 20 }
+  ]
+  @UI.identification: [
+    { position: 20 }
+  ]
+  ExpenseDate;
+
+  /* Amount */
+  @UI.lineItem: [
+    { position: 30, importance: #HIGH }
+  ]
+  @UI.identification: [
+    { position: 30 }
+  ]
+  Amount;
+
+  /* Description */
+  @UI.lineItem: [
+    { position: 40, importance: #HIGH }
+  ]
+  @UI.identification: [
+    { position: 40 }
+  ]
+  Description;
+
+  /* Bill File Name */
+  @UI.lineItem: [
+    { position: 50 }
+  ]
+  @UI.identification: [
+    { position: 50 }
+  ]
+  BillFileName;
+
+  /* Hide Technical Fields */
+
+  @UI.hidden: true
+  ItemId;
+
+  @UI.hidden: true
+  ClaimId;
+
+  @UI.hidden: true
+  CukyField;
+
+  @UI.hidden: true
+  BillMimeType;
+
+  @UI.hidden: true
+  BillContent;
+
+  @UI.hidden: true
+  CreatedBy;
+
+  @UI.hidden: true
+  CreatedAt;
+
+  @UI.hidden: true
+  LastChangedBy;
+
+  @UI.hidden: true
+  LastChangedAt;
+
+  @UI.hidden: true
+  LocalLastChangedAt;
+
+}

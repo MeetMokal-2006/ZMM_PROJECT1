@@ -1,0 +1,87 @@
+@Metadata.layer: #CORE
+
+@UI.presentationVariant: [
+  {
+    qualifier: 'default',
+    sortOrder: [
+      { by: 'StatusPriority', direction: #ASC }
+    ],
+    visualizations: [{ type: #AS_LINEITEM }]
+  }
+]
+
+@UI.selectionPresentationVariant: [
+  {
+    presentationVariantQualifier: 'default'
+  }
+]
+annotate entity ZC_MM_FINANCE_EXPENSE
+with
+{
+
+  @UI.facet: [
+    {
+      id       : 'FinanceExpense',
+      purpose  : #STANDARD,
+      type     : #IDENTIFICATION_REFERENCE,
+      label    : 'Expense Claim',
+      position : 10
+    },
+    {
+      id            : 'ExpenseItems',
+      purpose       : #STANDARD,
+      type          : #LINEITEM_REFERENCE,
+      targetElement : '_ExpenseItem',
+      label         : 'Expense Items',
+      position      : 20
+    }
+  ]
+
+  @UI.lineItem: [
+    { position: 10, importance: #HIGH },
+    { type: #FOR_ACTION, dataAction: 'ReleasePayment', label: 'Release Payment', position: 90 }
+  ]
+  @UI.identification: [
+    { position: 10, label: 'Claim ID' },
+    { type: #FOR_ACTION, dataAction: 'ReleasePayment', label: 'Release Payment', position: 90 }
+  ]
+  @UI.selectionField: [{ position: 10 }]
+  ClaimId;
+
+  @UI.lineItem: [{ position: 20, importance: #HIGH }]
+  @UI.identification: [{ position: 20, label: 'Employee Id' }]
+  EmployeeId;
+
+  @UI.lineItem: [{ position: 25, importance: #HIGH }]
+  @UI.identification: [{ position: 25, label: 'Employee Name' }]
+  EmployeeName;
+
+  @UI.lineItem: [{ position: 28, importance: #HIGH }]
+  @UI.identification: [{ position: 28, label: 'Department' }]
+  Department;
+
+  @UI.lineItem: [{ position: 30, importance: #HIGH }]
+  @UI.identification: [{ position: 30, label: 'Purpose' }]
+  Purpose;
+
+  @UI.lineItem: [{ position: 40, importance: #HIGH }]
+  @UI.identification: [{ position: 40, label: 'Claim Date' }]
+  ClaimDate;
+
+  @UI.lineItem: [{ position: 50, importance: #HIGH }]
+  @UI.identification: [{ position: 50, label: 'Total Amount' }]
+  TotalAmount;
+
+  @UI.lineItem: [{ position: 60, importance: #HIGH }]
+  @UI.identification: [{ position: 60, label: 'Status' }]
+  @UI.selectionField: [{ position: 60 }]
+  Status;
+
+  @UI.lineItem: [{ position: 70, importance: #HIGH }]
+  @UI.identification: [{ position: 70, label: 'Manager Remark' }]
+  ManagerRemarks;
+  
+  @UI.hidden: true
+StatusPriority;
+
+}

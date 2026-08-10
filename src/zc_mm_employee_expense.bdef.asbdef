@@ -1,0 +1,43 @@
+projection;
+strict ( 2 );
+use draft;
+
+
+define behavior for ZC_MM_EMPLOYEE_EXPENSE alias ExpenseClaim
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Cancel_Claim;
+ use action Reapply_Claim;
+  use action Prepare;
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+
+  side effects
+{
+  action Cancel_Claim
+    affects field Status,
+            field ManagerRemarks;
+
+  action Reapply_Claim
+    affects field Status,
+            field ManagerRemarks;
+}
+
+    field ( readonly ) ManagerRemarks;
+
+  use association _ExpenseItem { create; }
+}
+
+define behavior for ZC_MM_EMPLOYEE_EXPENSEITEM alias ExpenseItem
+{
+  use update;
+  use delete;
+
+  use association _ExpenseClaim;
+
+}

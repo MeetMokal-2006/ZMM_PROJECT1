@@ -1,0 +1,148 @@
+managed implementation in class zbp_r_mm_expenseclaim unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZR_MM_EXPENSECLAIM alias ExpenseClaim
+persistent table zmm_expens_claim
+draft table zmm_expens_c_d
+lock master total etag LocalLastChangedAt
+authorization master ( instance )
+early numbering
+{
+  create ( authorization : global );
+  update ( features : instance );
+  delete ( features : instance );
+
+  draft action ( features : instance ) Edit;
+  draft action Activate;
+  draft action Discard;
+  draft action Resume;
+
+  draft determine action Prepare
+  {
+    validation ExpenseItem~ValidateExpenseType;
+    validation ExpenseItem~ValidateAmount;
+    validation ExpenseItem~ValidateExpenseDate;
+  }
+
+  action ( features : instance ) Cancel_Claim;
+  action ( features : instance ) Reapply_Claim;
+
+
+  determination FillEmployeeDetails on modify { field EmployeeId; }
+  determination DetermineCurrency on modify { create; }
+  determination DetermineClaimDate on modify { create; }
+  determination draftStatus on modify { create; }
+  determination DetermineStatus on save { create; }
+
+
+
+
+
+
+
+
+  side effects
+  {
+    action Cancel_Claim
+    affects field Status,
+        field ManagerRemarks;
+
+    action Reapply_Claim
+    affects field Status,
+        field ManagerRemarks;
+  }
+
+
+  field ( mandatory ) EmployeeId, Purpose;
+  field ( readonly )
+  EmployeeName,
+  Department;
+  //  field ( readonly ) CukyField;
+  field ( readonly ) ClaimId,
+  TotalAmount,
+  Status,
+
+  ClaimDate,
+  CreatedBy,
+  CreatedAt,
+  LastChangedBy,
+  LastChangedAt,
+  LocalLastChangedAt;
+
+
+  association _ExpenseItem { create; }
+  mapping for zmm_expens_claim corresponding
+    {
+      ClaimId            = claim_id;
+      EmployeeId         = employee_id;
+      Purpose            = purpose;
+      ClaimDate          = claim_date;
+      CukyField          = cuky_field;
+      TotalAmount        = total_amount;
+      Status             = status;
+      ManagerRemarks     = manager_remarks;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}
+
+
+
+
+define behavior for ZR_MM_EXPENSEITEM alias ExpenseItem
+persistent table zmm_expense_item
+draft table zmm_exp_item_d
+lock dependent by _ExpenseClaim
+authorization dependent by _ExpenseClaim
+{
+  update ( features : instance );
+  delete ( features : instance );
+
+
+  field ( readonly ) ExpenseTypeName;
+  field ( readonly, numbering : managed ) ItemId;
+  field ( readonly ) ClaimId;
+  //  field ( readonly ) CukyField;
+
+  determination FillExpenseTypeName on modify { field ExpenseTypeId; }
+  determination DetermineCurrency on modify { create; }
+  determination UpdateClaimTotal on modify { create; update; delete; }
+
+  association _ExpenseClaim;
+
+
+  side effects
+  {
+    field Amount affects field _ExpenseClaim.TotalAmount;
+    field ExpenseTypeId affects field ExpenseTypeName;
+
+  }
+
+
+  validation ValidateExpenseType on save { create; field ExpenseTypeId; }
+  validation ValidateAmount on save { create; field Amount; }
+  validation ValidateExpenseDate on save { create; field ExpenseDate; }
+
+  mapping for zmm_expense_item corresponding
+    {
+      ItemId             = item_id;
+      ClaimId            = claim_id;
+      ExpenseTypeId      = expense_type_id;
+      ExpenseDate        = expense_date;
+      CukyField          = cuky_field;
+      Amount             = amount;
+      Description        = description;
+      BillFileName       = bill_file_name;
+      BillMimeType       = bill_mime_type;
+      BillContent        = bill_content;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+    }
+}

@@ -1,0 +1,99 @@
+managed implementation in class zbp_r_mm_finance_expense unique;
+strict ( 2 );
+
+define behavior for ZR_MM_FINANCE_EXPENSE alias ExpenseClaim
+persistent table zmm_expens_claim
+
+lock master
+etag master LastChangedAt
+authorization master ( instance )
+
+{
+
+  update;
+
+
+
+  action ReleasePayment;
+
+  side effects
+{
+  action ReleasePayment
+    affects field Status,
+            field ManagerRemarks;
+            }
+
+  field ( readonly )
+    ClaimId,
+    EmployeeId,
+    EmployeeName,
+    Department,
+    Purpose,
+    ClaimDate,
+    TotalAmount,
+    Status,
+    ManagerRemarks,
+    CreatedBy,
+    CreatedAt,
+    LastChangedBy,
+    LastChangedAt,
+    LocalLastChangedAt;
+
+  association _ExpenseItem;
+
+  mapping for zmm_expens_claim corresponding
+  {
+      ClaimId            = claim_id;
+      EmployeeId         = employee_id;
+      Purpose            = purpose;
+      ClaimDate          = claim_date;
+      TotalAmount        = total_amount;
+      Status             = status;
+      ManagerRemarks     = manager_remarks;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+  }
+
+}
+
+define behavior for ZR_MM_FINANCE_EXPENSEITEM alias ExpenseItem
+persistent table zmm_expense_item
+
+lock dependent by _ExpenseClaim
+authorization dependent by _ExpenseClaim
+{
+
+  field ( readonly )
+    ItemId,
+    ExpenseTypeId,
+    ExpenseDate,
+    Amount;
+
+  field ( readonly ) ClaimId;
+  field ( readonly ) ExpenseTypeName;
+
+  association _ExpenseClaim;
+
+  mapping for zmm_expense_item corresponding
+  {
+      ItemId             = item_id;
+      ClaimId            = claim_id;
+      ExpenseTypeId      = expense_type_id;
+      ExpenseDate        = expense_date;
+      CukyField          = cuky_field;
+      Amount             = amount;
+      Description        = description;
+      BillFileName       = bill_file_name;
+      BillMimeType       = bill_mime_type;
+      BillContent        = bill_content;
+      CreatedBy          = created_by;
+      CreatedAt          = created_at;
+      LastChangedBy      = last_changed_by;
+      LastChangedAt      = last_changed_at;
+      LocalLastChangedAt = local_last_changed_at;
+  }
+
+}

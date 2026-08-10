@@ -1,0 +1,43 @@
+@Metadata.layer: #CORE
+
+annotate entity ZC_MM_EMPLOYEE_EXPENSEITEM
+with
+{
+
+  @UI.facet: [
+    {
+      id:              'GeneralInfoFacet',
+      purpose:         #STANDARD,
+      type:            #IDENTIFICATION_REFERENCE,
+      label:           'General Information',
+      position:        10
+    }
+  ]
+
+  @UI.hidden: true
+  ItemId;
+
+  @UI.identification: [{ position: 10, label: 'Expense Type' }]
+  @UI.lineItem:       [{ position: 10, label: 'Expense Type' }]
+  @UI.selectionField: [{ position: 10 }]
+  ExpenseTypeId;
+
+  @UI.identification: [{ position: 20, label: 'Expense Type Name' }]
+  @UI.lineItem:       [{ position: 20, label: 'Expense Type Name' }]
+  ExpenseTypeName;
+
+  @UI.identification: [{ position: 30, label: 'Expense Date' }]
+  @UI.lineItem:       [{ position: 30, label: 'Expense Date' }]
+  @UI.selectionField: [{ position: 20 }]
+  ExpenseDate;
+
+  @UI.identification: [{ position: 40, label: 'Amount' }]
+  @UI.lineItem:       [{ position: 40, label: 'Amount' }]
+  Amount;
+
+  @UI.identification: [{ position: 50, label: 'Description' }]
+  @UI.lineItem:       [{ position: 50, label: 'Description' }]
+  Description;
+
+
+}
