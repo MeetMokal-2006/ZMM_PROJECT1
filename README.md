@@ -4,9 +4,11 @@
 
 An end-to-end employee expense reimbursement application developed using **SAP ABAP RESTful Application Programming Model (RAP)** and **SAP Fiori Elements**.
 
-The system manages the complete expense process across three applications:
+The system manages the complete expense process across three role-based applications:
 
 **Employee → Manager → Finance**
+
+All three applications are built around the same core **Expense Claim** and **Expense Item** business entities, with separate projection views for each role.
 
 ---
 
@@ -15,7 +17,7 @@ The system manages the complete expense process across three applications:
 ### 👨‍💼 Employee
 
 * Create expense claims
-* Add multiple expense items
+* Add multiple expense items to a claim
 * View claim details and status
 * Cancel eligible claims
 
@@ -29,7 +31,7 @@ The system manages the complete expense process across three applications:
 ### 💰 Finance
 
 * View **only Manager-approved claims**
-* Review approved claim and expense items
+* Review approved claims and expense items
 * Process reimbursement
 * Track processed claims
 
@@ -40,7 +42,8 @@ The system manages the complete expense process across three applications:
 ```text
 Employee
    ↓
-Create Claim + Add Expenses
+Expense Claim
+   └── Expense Items
    ↓
 Submit Claim
    ↓
@@ -52,6 +55,45 @@ Manager Review
           ↓
    Process Reimbursement
 ```
+
+---
+
+## 🏗️ Core Business Model
+
+```text
+             Expense Claim
+                   │
+                   │ 1 : N
+                   ▼
+              Expense Item
+```
+
+The **Expense Claim** is the main business entity, while **Expense Items** contain the individual expenses belonging to the claim.
+
+The same Claim and Item data is used across all three applications through role-specific projection views:
+
+```text
+                  Expense Claim
+                       │
+                  Expense Item
+                       │
+          ┌────────────┼────────────┐
+          ↓            ↓            ↓
+      Employee       Manager      Finance
+        App            App           App
+```
+
+---
+
+## 📱 Fiori Applications
+
+| Application              | Purpose                           |
+| ------------------------ | --------------------------------- |
+| **Employee Expense App** | Create and manage expense claims  |
+| **Manager Expense App**  | Review, approve and reject claims |
+| **Finance Expense App**  | Process Manager-approved claims   |
+
+Each application uses a **role-specific projection view** while working with the common Expense Claim and Expense Item business model.
 
 ---
 
@@ -77,18 +119,6 @@ The project includes:
 
 ---
 
-## 📱 Fiori Applications
-
-| Application              | Purpose                           |
-| ------------------------ | --------------------------------- |
-| **Employee Expense App** | Create and manage expense claims  |
-| **Manager Expense App**  | Review, approve and reject claims |
-| **Finance Expense App**  | Process Manager-approved claims   |
-
-Each application uses its own **role-specific projection view** while working with the underlying RAP business model.
-
----
-
 ## 🗄️ Main Database Tables
 
 ```text
@@ -100,37 +130,6 @@ ZMM_EXPENSE_TYPE
 
 Draft tables are also used for RAP draft processing.
 
----
-
-## ⚙️ Main RAP Objects
-
-### CDS Views
-
-```text
-ZR_MM_EXPENSECLAIM
-ZR_MM_EXPENSEITEM
-ZR_MM_EMPLOYEE
-ZR_MM_EXPENSETYPE
-
-ZC_MM_EMPLOYEE_EXPENSE
-ZC_MM_MANAGER_EXPENSE
-ZC_MM_FINANCE_EXPENSE
-```
-
-### Behavior Implementations
-
-```text
-ZBP_R_MM_EXPENSECLAIM
-ZBP_R_MM_MANAGER_EXPENSE
-ZBP_R_MM_FINANCE_EXPENSE
-```
-
-### Service
-
-```text
-ZSRD_MM_EXPENSE   → Service Definition
-ZSRB_MM_EXPENSE   → Service Binding
-```
 
 ---
 
@@ -150,7 +149,7 @@ ZSRB_MM_EXPENSE   → Service Binding
 
 ## 📸 Applications
 
-Screenshots of the Employee, Manager, and Finance applications can be added here.
+Screenshots of the three Fiori applications:
 
 ```text
 screenshots/
