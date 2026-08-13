@@ -149,14 +149,23 @@ Draft tables are also used for RAP draft processing.
 
 ## 📸 Applications
 
-Screenshots of the three Fiori applications:
+### 👨‍💼 Employee Application
 
-```text
-screenshots/
-├── employee-app.png
-├── manager-app.png
-└── finance-app.png
-```
+![Employee Page](Employee_Page.png)
+
+![Create Expense Claim](Create_Claim.png)
+
+![Employee Expense View](Employee_View.png)
+
+### 👨‍💼 Manager Application
+
+![Manager Page](Manager_page.png)
+
+![Reject Claim](manager-reject-dialog.png)
+
+### 💰 Finance Application
+
+![Finance Approved Claims](finance-approved-claim.png)
 
 ---
 
